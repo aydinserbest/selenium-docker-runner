@@ -1,0 +1,51 @@
+version: "3"
+services:
+  hub:      #container1   
+    image: selenium/hub:4.12.1
+    ports:
+      - 4444:4444       
+  chrome:     #container2
+    image: selenium/node-chrome:4.12.1
+    shm_size: '2g'
+    depends_on:
+      - hub
+    environment:
+      - SE_EVENT_BUS_HOST=hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true    # WE ARE OVERRIDING THE MAX SESSIONS
+      - SE_NODE_MAX_SESSIONS=4
+  firefox:     #container3
+    image: selenium/node-firefox:4.12.1
+    shm_size: '2g'
+    depends_on:
+      - hub
+    environment:
+      - SE_EVENT_BUS_HOST=hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true    # WE ARE OVERRIDING THE MAX SESSIONS
+      - SE_NODE_MAX_SESSIONS=4
+  vendor-portal:
+    image: aserbest/selenium:version2
+    depends_on:
+      - chrome
+    environment:
+      - BROWSER=chrome
+      - HUB_HOST:hub    #they are in the same network now,it can talk to hub directly we do not need ip address
+      - THREAD_COUNT=3
+      - TEST_SUITE=vendor-portal-parallel.xml
+    volumes:
+      - ./output/vendor-portal:/home/selenium-docker/test-output
+  flight-reservation:
+    image: aserbest/selenium:version2
+    depends_on:
+      - firefox
+    environment:
+      - BROWSER=firefox
+      - HUB_HOST:hub    #they are in the same network now,it can talk to hub directly we do not need ip address
+      - THREAD_COUNT=5
+      - TEST_SUITE=flight-reservation-parallel.xml
+    volumes:
+      - ./output/flight-reservation:/home/selenium-docker/test-output
+

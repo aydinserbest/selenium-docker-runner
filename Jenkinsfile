@@ -1,12 +1,8 @@
 pipeline{
 
 
-    agent {
-        label 'echo'
-    }
+    agent any
     stages{
-
-
         stage('Run test'){
             steps{
                 sh "docker-compose up"   

@@ -1,21 +1,16 @@
 pipeline{
-
-
     agent any
     stages{
-        stage('Run test'){
+        stage('Run Test'){
             steps{
                 sh "docker-compose up"   
             }
         }       
-        stage('sBring Grid Down'){
+        stage('Bring Grid Down'){
             steps{
-                sh "docker-compose down"    
-                
+                sh "docker-compose down"               
             }
-
         }
-
 }
 
 }

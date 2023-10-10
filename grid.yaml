@@ -1,0 +1,25 @@
+version: "3"
+services:
+  hub:      #container1   
+    image: selenium/hub:4.12.1
+    # ports:
+    #   - 4444:4444       we do not need port mapping here, it is necessary only if you want to see UI
+    #containers will talk among themselves so we do not need port mapping
+  chrome:     #container2
+    image: selenium/node-chrome:4.12.1
+    shm_size: '2g'
+    depends_on:
+      - hub
+    deploy:
+      replicas: 1  #when we start hub container, chrome and firefox will not start by this way , 
+      # we will start it when necessary
+    env_file: .env
+  firefox:     #container3
+    image: selenium/node-firefox:4.12.1
+    shm_size: '2g'
+    depends_on:
+      - hub
+    deploy:
+      replicas: 1
+    env_file: .env
+  

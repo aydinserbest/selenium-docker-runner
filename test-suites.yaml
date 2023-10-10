@@ -1,0 +1,21 @@
+version: "3"
+services:
+  vendor-portal:
+    image: aserbest/selenium
+    environment:
+      - BROWSER=chrome
+      - HUB_HOST:hub    #they are in the same network now,it can talk to hub directly we do not need ip address
+      - THREAD_COUNT=3
+      - TEST_SUITE=vendor-portal-parallel.xml
+    volumes:
+      - ./output/vendor-portal:/home/selenium-docker/test-output
+  flight-reservation:
+    image: aserbest/selenium
+    environment:
+      - BROWSER=firefox
+      - HUB_HOST:hub    #they are in the same network now,it can talk to hub directly we do not need ip address
+      - THREAD_COUNT=5
+      - TEST_SUITE=flight-reservation-parallel.xml
+    volumes:
+      - ./output/flight-reservation:/home/selenium-docker/test-output
+

@@ -3,7 +3,7 @@ services:
   vendor-portal:
     image: aserbest/selenium
     environment:
-      - BROWSER=chrome
+      - BROWSER
       - HUB_HOST:hub    #they are in the same network now,it can talk to hub directly we do not need ip address
       - THREAD_COUNT=2
       - TEST_SUITE=vendor-portal-parallel.xml
@@ -12,7 +12,7 @@ services:
   flight-reservation:
     image: aserbest/selenium
     environment:
-      - BROWSER=firefox
+      - BROWSER
       - HUB_HOST:hub    #they are in the same network now,it can talk to hub directly we do not need ip address
       - THREAD_COUNT=2
       - TEST_SUITE=flight-reservation-parallel.xml

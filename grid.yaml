@@ -11,7 +11,7 @@ services:
     depends_on:
       - hub
     deploy:
-      replicas: 1  #when we start hub container, chrome and firefox will not start by this way , 
+      replicas: 0  #when we start hub container, chrome and firefox will not start by this way , 
       # we will start it when necessary
     env_file: .env
   firefox:     #container3
@@ -20,6 +20,6 @@ services:
     depends_on:
       - hub
     deploy:
-      replicas: 1
+      replicas: 0
     env_file: .env
   
